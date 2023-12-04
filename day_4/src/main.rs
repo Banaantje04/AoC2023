@@ -1,4 +1,4 @@
-use std::collections::{HashMap, VecDeque};
+use std::collections::HashMap;
 
 const INPUT: &str = include_str!("input.txt");
 
@@ -48,23 +48,20 @@ fn solve_part_2() -> usize {
 
     //println!("Map of wins: {:#?}", hm);
 
-    let mut queue = VecDeque::new();
+    let mut cards: HashMap<usize, usize> = HashMap::new();
     let mut amount = 0;
     for i in 0..INPUT.lines().count() {
-        queue.push_back(i);
+        cards.insert(i, 1);
     }
 
     //println!("Starting queue: {:?}", queue);
 
-    while queue.len() > 0 {
-        amount += 1;
+    for i in 0..INPUT.lines().count() {
+        let card_count = *(cards.get(&i).unwrap());
+        amount += card_count;
 
-        let game_num = queue.pop_front().unwrap();
-        let wins = hm.get(&game_num).unwrap();
-        if *wins > 0 {
-            for j in game_num + 1..game_num + wins + 1 {
-                queue.push_back(j);
-            }
+        for j in i + 1..i + hm.get(&i).unwrap() + 1 {
+            cards.insert(j, cards.get(&j).unwrap() + card_count);
         }
     }
 
