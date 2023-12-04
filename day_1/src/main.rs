@@ -26,7 +26,7 @@ fn solve_part_1() -> usize {
 fn solve_part_2() -> u32 {
     let mut sum = 0;
     for l in INPUT.lines() {
-        let mut curr = l;   
+        let mut curr = l;
         let mut first = true;
         let mut num = 0;
         let mut second_digit = 0;
@@ -135,6 +135,7 @@ fn solve_part_2() -> u32 {
 }
 
 fn main() {
+    println!("Day 1: Trebuchet?!");
     println!("The solution to part one is: {}", solve_part_1());
     println!("The solution to part two is: {}", solve_part_2());
 }

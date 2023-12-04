@@ -75,40 +75,40 @@ fn get_ratio(chars: &Vec<Vec<char>>, i: usize, j: usize) -> u32 {
         amount_num += 1;
         ratio *= get_number(&chars[i], j + 1);
     }
-    if j > 0 && chars[i][j-1].is_digit(10) {
+    if j > 0 && chars[i][j - 1].is_digit(10) {
         amount_num += 1;
         ratio *= get_number(&chars[i], j - 1);
     }
-    if i > 0 && chars[i-1][j].is_digit(10) {
+    if i > 0 && chars[i - 1][j].is_digit(10) {
         amount_num += 1;
-        ratio *= get_number(&chars[i-1], j);
+        ratio *= get_number(&chars[i - 1], j);
     } else {
         //println!("looking up");
-        if j > 0 && chars[i-1][j-1].is_digit(10) {
+        if j > 0 && chars[i - 1][j - 1].is_digit(10) {
             amount_num += 1;
-            ratio *= get_number(&chars[i-1], j - 1);
+            ratio *= get_number(&chars[i - 1], j - 1);
             //println!("found number: {}", ratio);
         }
-        if j < chars[i-1].len() - 1 && chars[i-1][j+1].is_digit(10) {
+        if j < chars[i - 1].len() - 1 && chars[i - 1][j + 1].is_digit(10) {
             amount_num += 1;
-            ratio *= get_number(&chars[i-1], j + 1);
+            ratio *= get_number(&chars[i - 1], j + 1);
         }
     }
-    if i < chars.len() - 1 && chars[i+1][j].is_digit(10) {
+    if i < chars.len() - 1 && chars[i + 1][j].is_digit(10) {
         amount_num += 1;
-        ratio *= get_number(&chars[i+1], j);
+        ratio *= get_number(&chars[i + 1], j);
         //println!("found num {}", ratio);
     } else {
-        if j > 0 && chars[i+1][j-1].is_digit(10) {
+        if j > 0 && chars[i + 1][j - 1].is_digit(10) {
             amount_num += 1;
-            ratio *= get_number(&chars[i+1], j - 1);
+            ratio *= get_number(&chars[i + 1], j - 1);
         }
-        if j < chars[i-1].len() - 1 && chars[i+1][j+1].is_digit(10) {
+        if j < chars[i - 1].len() - 1 && chars[i + 1][j + 1].is_digit(10) {
             amount_num += 1;
-            ratio *= get_number(&chars[i+1], j + 1);
+            ratio *= get_number(&chars[i + 1], j + 1);
         }
     }
-    
+
     if amount_num == 2 {
         ratio
     } else {
@@ -119,24 +119,24 @@ fn get_ratio(chars: &Vec<Vec<char>>, i: usize, j: usize) -> u32 {
 fn get_number(chars: &Vec<char>, i: usize) -> u32 {
     let mut num = 0;
     {
-    let mut i = i;
-    while chars[i].is_digit(10) {
-        if i > 0 {
-            i -= 1;
-        } else {
-            num = chars[i].to_digit(10).unwrap();
-            break;
+        let mut i = i;
+        while chars[i].is_digit(10) {
+            if i > 0 {
+                i -= 1;
+            } else {
+                num = chars[i].to_digit(10).unwrap();
+                break;
+            }
         }
-    }
-    i += 1;
-    while chars[i].is_digit(10) {
-        num = 10 * num + chars[i].to_digit(10).unwrap();
-        if i < chars.len() - 1 {
-            i += 1;
-        } else {
-            break;
+        i += 1;
+        while chars[i].is_digit(10) {
+            num = 10 * num + chars[i].to_digit(10).unwrap();
+            if i < chars.len() - 1 {
+                i += 1;
+            } else {
+                break;
+            }
         }
-    }
     }
     //println!("got number {} on line {:?} with char {}", num, chars, i);
     num
