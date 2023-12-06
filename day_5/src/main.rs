@@ -64,13 +64,14 @@ fn solve_part_2() -> isize {
         let mut start = seed_range[0];
         let end = seed_range[1] + start;
 
-        while start <= end {
+        while start < end {
             if start < seed_range[0] {
                 panic!("We went below...");
             }
-            let ub = isize::min(end, almanac.get_upper_bound_of_same(start));
+            lowest_location = isize::min(lowest_location, almanac.get_location(start));
 
-            lowest_location = isize::min(lowest_location, almanac.get_location(ub));
+            let ub = almanac.get_upper_bound_of_same(start);
+
             start = ub + 1;
         }
     }
@@ -136,6 +137,6 @@ impl SectionMap {
                 return range.1 + range.2 - 1;
             }
         }
-        source
+        isize::MAX
     }
 }
