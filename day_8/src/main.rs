@@ -1,3 +1,5 @@
+use num::integer::lcm;
+
 const INPUT: &str = include_str!("input.txt");
 
 fn solve_part_1() -> usize {
@@ -82,31 +84,29 @@ fn solve_part_2() -> usize {
         node.right = right;
     }
 
-    let mut curr = graph.nodes.iter().filter(|n| n.id.ends_with("A")).collect::<Vec<_>>();
-    let ghost_count = curr.len();
-    let mut movechar = moves.chars();
-    let mut num = 0;
-    while curr.iter().filter(|n| n.id.ends_with("Z")).count() < ghost_count {
-        match movechar.next() {
-            Some(dir) => {
-                num += 1;
-                match dir {
-                    'R' => curr = curr.iter().map(|n| {
-                        let next = &graph.nodes[n.right];
-                        println!("{:?}", next.id);
-                        next}).collect(),
-                    'L' => curr = curr.iter().map(|n| {
-                        let next = &graph.nodes[n.left];
-                        println!("{:?}", next.id);
-                        next}).collect(),
-                    c => panic!("This is not a direction! {c}"),
+    let curr = graph.nodes.iter().filter(|n| n.id.ends_with("A"));
+    let runtimes = curr.map(|n| {
+        let mut curr_n = n;
+        let mut movechar = moves.chars();
+        let mut num = 0;
+        while !curr_n.id.ends_with("Z") {
+            match movechar.next() {
+                Some(dir) => {
+                    num += 1;
+                    match dir {
+                        'R' => curr_n = &graph.nodes[curr_n.right],
+                        'L' => curr_n = &graph.nodes[curr_n.left],
+                        c => panic!("This is not a direction! {c}"),
+                    }
                 }
+                None => movechar = moves.chars(),
             }
-            None => movechar = moves.chars(),
         }
-    }
-
-    num
+        num
+    });
+    
+    println!("{:?}", runtimes.clone().collect::<Vec<_>>());
+    runtimes.reduce(|lcm, n| num::integer::lcm(lcm, n)).unwrap()
 }
 
 fn main() {
