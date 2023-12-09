@@ -5,7 +5,11 @@ const INPUT: &str = include_str!("input.txt");
 fn solve_part_1() -> usize {
     let (graph, moves) = create_graph();
 
-    get_runtime(&graph, graph.nodes.iter().find(|i| i.id == "AAA").unwrap(), moves)
+    get_runtime(
+        &graph,
+        graph.nodes.iter().find(|i| i.id == "AAA").unwrap(),
+        moves,
+    )
 }
 
 fn solve_part_2() -> usize {
@@ -13,7 +17,7 @@ fn solve_part_2() -> usize {
 
     let curr = graph.nodes.iter().filter(|n| n.id.ends_with("A"));
     let runtimes = curr.map(|n| get_runtime(&graph, n, moves));
-    
+
     //println!("{:?}", runtimes.clone().collect::<Vec<_>>());
     runtimes.reduce(|acc, n| lcm(acc, n)).unwrap()
 }

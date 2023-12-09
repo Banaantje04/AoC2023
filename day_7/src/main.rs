@@ -4,9 +4,12 @@ use std::collections::HashMap;
 const INPUT: &str = include_str!("input.txt");
 
 fn solve_part_1() -> usize {
-    let mut hands = INPUT.lines().map(|l| Hand::create_part_1(l.split_whitespace().collect())).collect::<Vec<_>>();
-    hands.sort_by(|a,b| a.cmp(b));
-    
+    let mut hands = INPUT
+        .lines()
+        .map(|l| Hand::create_part_1(l.split_whitespace().collect()))
+        .collect::<Vec<_>>();
+    hands.sort_by(|a, b| a.cmp(b));
+
     //println!("The sorted hands are: {:?}", hands);
 
     let mut sum = 0;
@@ -17,9 +20,12 @@ fn solve_part_1() -> usize {
 }
 
 fn solve_part_2() -> usize {
-    let mut hands = INPUT.lines().map(|l| Hand::create_part_2(l.split_whitespace().collect())).collect::<Vec<_>>();
-    hands.sort_by(|a,b| a.cmp(b));
-    
+    let mut hands = INPUT
+        .lines()
+        .map(|l| Hand::create_part_2(l.split_whitespace().collect()))
+        .collect::<Vec<_>>();
+    hands.sort_by(|a, b| a.cmp(b));
+
     //println!("The sorted hands are: {:?}", hands);
 
     let mut sum = 0;
@@ -39,7 +45,7 @@ fn main() {
 struct Hand {
     hand: Vec<usize>,
     bid: usize,
-    type_id: usize
+    type_id: usize,
 }
 
 impl Ord for Hand {
@@ -56,14 +62,32 @@ impl Ord for Hand {
 
 impl Hand {
     fn compare_hand_string(hand: &Vec<usize>, ohand: &Vec<usize>) -> Ordering {
-        let mut cmps = hand.iter().zip(ohand).map(|c| c.0.cmp(&c.1)).filter(|o| *o != Ordering::Equal);
+        let mut cmps = hand
+            .iter()
+            .zip(ohand)
+            .map(|c| c.0.cmp(&c.1))
+            .filter(|o| *o != Ordering::Equal);
         let cmp = cmps.next().unwrap();
         //println!("Hand {:?} was {:?} than {:?}", hand, cmp, ohand);
         cmp
     }
 
     fn create_part_1(hand: Vec<&str>) -> Hand {
-        let conv: HashMap<char, usize> = HashMap::from([('2', 0), ('3', 1), ('4', 2),('5',3),('6',4),('7',5),('8',6),('9',7),('T',8),('J',9),('Q',10),('K',11),('A',12)]);
+        let conv: HashMap<char, usize> = HashMap::from([
+            ('2', 0),
+            ('3', 1),
+            ('4', 2),
+            ('5', 3),
+            ('6', 4),
+            ('7', 5),
+            ('8', 6),
+            ('9', 7),
+            ('T', 8),
+            ('J', 9),
+            ('Q', 10),
+            ('K', 11),
+            ('A', 12),
+        ]);
 
         let handnums = hand[0].chars().map(|c| *(conv.get(&c).unwrap())).collect();
         let bid = hand[1].parse().unwrap();
@@ -72,7 +96,7 @@ impl Hand {
         Hand {
             hand: handnums,
             bid,
-            type_id
+            type_id,
         }
     }
 
@@ -107,7 +131,21 @@ impl Hand {
     }
 
     fn create_part_2(hand: Vec<&str>) -> Hand {
-        let conv: HashMap<char, usize> = HashMap::from([('J', 0),('2', 1), ('3', 2), ('4', 3),('5',4),('6',5),('7',6),('8',7),('9',8),('T',9),('Q',10),('K',11),('A',12)]);
+        let conv: HashMap<char, usize> = HashMap::from([
+            ('J', 0),
+            ('2', 1),
+            ('3', 2),
+            ('4', 3),
+            ('5', 4),
+            ('6', 5),
+            ('7', 6),
+            ('8', 7),
+            ('9', 8),
+            ('T', 9),
+            ('Q', 10),
+            ('K', 11),
+            ('A', 12),
+        ]);
 
         let handnums = hand[0].chars().map(|c| *(conv.get(&c).unwrap())).collect();
         let bid = hand[1].parse().unwrap();
@@ -116,7 +154,7 @@ impl Hand {
         Hand {
             hand: handnums,
             bid,
-            type_id
+            type_id,
         }
     }
 
@@ -126,7 +164,7 @@ impl Hand {
             *m.entry(*i).or_default() += 1;
         }
 
-        let maxs = m.iter().filter(|(k,_)| **k != 0);
+        let maxs = m.iter().filter(|(k, _)| **k != 0);
         let max = maxs.clone().max_by_key(|(_, v)| *v).unwrap_or((&0, &0));
 
         let type_id = if *max.1 == 5 || max.1 + m.get(&0).unwrap_or(&0) == 5 {

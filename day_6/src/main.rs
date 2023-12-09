@@ -1,15 +1,30 @@
 const INPUT: &str = include_str!("input.txt");
 
 fn solve_part_1() -> usize {
-    let times = INPUT.lines().next().unwrap().split_whitespace().skip(1).map(|t| t.parse().unwrap()).collect::<Vec<usize>>();
-    let distances = INPUT.lines().skip(1).next().unwrap().split_whitespace().skip(1).map(|d| d.parse().unwrap()).collect::<Vec<usize>>();
+    let times = INPUT
+        .lines()
+        .next()
+        .unwrap()
+        .split_whitespace()
+        .skip(1)
+        .map(|t| t.parse().unwrap())
+        .collect::<Vec<usize>>();
+    let distances = INPUT
+        .lines()
+        .skip(1)
+        .next()
+        .unwrap()
+        .split_whitespace()
+        .skip(1)
+        .map(|d| d.parse().unwrap())
+        .collect::<Vec<usize>>();
 
     let mut sum = 1;
     for (i, time) in times.iter().enumerate() {
         let distance = distances[i];
         let mut num = 0;
         for j in 1..*time {
-            if (*time - j)*j > distance {
+            if (*time - j) * j > distance {
                 num += 1;
             }
         }
@@ -28,7 +43,7 @@ fn solve_part_2() -> usize {
 
     let mut num = 0;
     for j in 1..time {
-        if (time - j)*j > distance {
+        if (time - j) * j > distance {
             num += 1;
         }
     }
