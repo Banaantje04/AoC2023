@@ -41,13 +41,22 @@ fn solve_part_2() -> usize {
     distance.retain(|c| c.is_digit(10));
     let distance = distance.parse::<usize>().unwrap();
 
-    let mut num = 0;
+    let mut start = 0;
     for j in 1..time {
         if (time - j) * j > distance {
-            num += 1;
+            start = j;
+            break;
         }
     }
-    num
+    let mut end = 0;
+    for j in (1..time).rev() {
+        if (time - j) * j > distance {
+            end = j + 1;
+            break;
+        }
+    }
+
+    end - start
 }
 
 fn main() {
